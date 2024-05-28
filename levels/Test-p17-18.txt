@@ -1,0 +1,71 @@
+20 20
+####################
+#                  #
+#                  #
+#                  #
+#                  #
+#                  #
+#                  #
+#                  #
+#                  #
+#                  #
+#                  #
+#                  #
+#                  #
+#                  #
+#                   
+#                  #
+#                  #
+#                  #
+#             17 18#
+####################
+49
+Box 1 3 1
+Box 4 3 2
+Box * 3 3
+Box 9 3 4
+Box = 3 5
+Player @ 1 7
+Box - 2 7
+Player @ 1 9
+Box = 2 9
+Box 4 4 7
+Box = 5 7
+Box 1 11 1
+Box 2 11 2
+Box * 11 3
+Box 1 11 4
+Box 2 11 5
+Box = 11 6
+Player @ 10 8
+Box = 11 10
+Box 8 17 1
+Box 4 17 2
+Box 2 17 3
+Box 1 17 4
+Box = 17 5
+Player @ 15 7
+Box = 16 7
+Box 2 6 11
+Box - 6 12
+Box 4 6 13
+Player @ 4 14
+Box = 5 14
+Box 3 5 15
+Box 1 7 15
+Box = 8 15
+Box 1 14 8
+Box 2 14 9
+Box * 14 10
+Box 1 14 11
+Box 2 14 12
+Box = 14 13
+Player 8 13 15
+Box = 14 17
+Box 1 18 14
+Box 7 17 15
+Player @ 16 15
+Box - 18 16
+Box 1 18 17
+Box 8 17 18
+Player @ 16 18
