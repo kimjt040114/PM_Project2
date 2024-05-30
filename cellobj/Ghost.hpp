@@ -14,6 +14,7 @@ public:
     ObjectType GetType() { return ObjectType::GHOST; }
 
     // Implement Ghost::GetAttr that returns DIM.
+    
 
     // Implement Ghost::GetIcon.
     // No default icon - return the item's icon.

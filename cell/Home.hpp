@@ -5,10 +5,13 @@
 
 class Home : public Cell
 {
+private:
+    int targetNumber;
+
 public:
     Home(Map* map, int row, int col);
 
-    int targetNumber;
+    int getTargetNumber() { return targetNumber; }    
     
     bool Check();
 

@@ -30,7 +30,7 @@ bool CellObjBase::TryMove(Direction dir)
     //    swap between the neighbor and return true
     // 5. If any one of 2 to 4 is false, then return false
 
-
+    
 
 
 
@@ -50,7 +50,10 @@ void CellObjBase::InitItem(char itemIcon)
     // ‘@’: Do nothing (this indicates an empty player).
     // else: Don’t care (throwing runtime_error is best).
 
-
+    if(itemIcon == '+'){ this->item = new Operator(this, ADD); }
+    else if(itemIcon == '-'){ this->item = new Operator(this, SUB); }
+    else if(itemIcon == '*'){ this->item = new Operator(this, MUL); }
+    else if(itemIcon == '='){ this->item = new Equal()}
 
 
 

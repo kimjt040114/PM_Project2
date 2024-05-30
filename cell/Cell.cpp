@@ -50,7 +50,16 @@ void Cell::SwapObject(Cell* other)
     // 2. If other->obj exists: change parent of other->obj.
     // 3. Swap this->obj and other->obj.
 
+    Cell* tempCell = this;
+
+    if(this->obj != nullptr) this->obj = new CellObjBase(other); 
     
+    if(other->obj != nullptr) other->obj = new CellObjBase(tempCell);
+
+    CellObjBase* tempObj = this->obj;
+
+    this->obj = other->obj;
+
 
     //////////   TODO END   ////////////////////////////////////
 }
@@ -100,7 +109,7 @@ Cell* Cell::GetNeighbor(Direction dir) const
     // If the cell is placed at the border of the map and the direction is outside the map, return nullptr.
     // Else return the neighbor cell.
 
-
+    
 
 
 
