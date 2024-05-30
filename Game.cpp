@@ -207,7 +207,13 @@ void Game::Move(Direction dir)
     // 5. Print the map.
     // 6. Push current map state to undo stack.
 
+    this->map->RemoveGhosts();
 
+    for(Player* p : this->map->objects[PLAYER]){
+        if(p->TryPush(dir)){
+            
+        }
+    }
 
 
     //////////   TODO END   ////////////////////////////////////

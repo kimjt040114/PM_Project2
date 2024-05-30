@@ -30,10 +30,18 @@ bool CellObjBase::TryMove(Direction dir)
     //    swap between the neighbor and return true
     // 5. If any one of 2 to 4 is false, then return false
 
-    
+    Cell* neighbor = parent->getNeighbor();
 
+    if(neighbor != nullptr){
+        if(neighbor->cellType != CellType::WALL){
+            if(neighbor->object != nullptr){
+                parent->SwapObject(neighbor);
+                return true
+            }
+        }
+    }
 
-
+    return false;
 
     //////////   TODO END   ////////////////////////////////////
 }
@@ -53,7 +61,8 @@ void CellObjBase::InitItem(char itemIcon)
     if(itemIcon == '+'){ this->item = new Operator(this, ADD); }
     else if(itemIcon == '-'){ this->item = new Operator(this, SUB); }
     else if(itemIcon == '*'){ this->item = new Operator(this, MUL); }
-    else if(itemIcon == '='){ this->item = new Equal()}
+    else if(itemIcon == '='){ this->item = new Equal(); }
+    else if('0' <= ItemIcon && ItemIcon <= '9'){ new Number(this, int(ItemIcon) - int('0')); }
 
 
 

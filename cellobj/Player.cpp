@@ -17,10 +17,17 @@ bool Player::TryPush(Direction dir)
     // 4. If the neighbor had an object, then try to move that object in that direction and return the result.
     // 5. If any one of 2 to 4 is false, then return false.
 
+    Cell* neighbor = parent->getNeighbor();
 
+    if(neighbor->cellType != CellType::WALL){
+        if(neighbor->object != nullptr){
+            if(neighbor->object->TryMove(dir)){
+                return true;
+            }
+        }
+    }
 
-
-
+    else return false;
 
     //////////   TODO END   ////////////////////////////////////
 }
@@ -28,8 +35,13 @@ bool Player::TryPush(Direction dir)
 //////////     TODO     ////////////////////////////////////
 // Define overrided functions from Player.hpp.
 
+ObjectType Player::GetType() const{ 
+    return ObjectType::PLAYER; 
+}
 
-
+AttrType Player::GetAttr() const{ 
+    return AttrType::NORMAL; 
+}
 
 
 //////////   TODO END   ////////////////////////////////////

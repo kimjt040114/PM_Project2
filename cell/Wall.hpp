@@ -12,7 +12,7 @@ public:
 
     // Implement Wall::GetAttr.
     // Default attr is REVERSE, but if this cell has an object, then OR(|) with the object's attr.
-
+    
     // Implement Wall::GetColorPair.
     // Default ColorPair is NORMAL, but if this->object is a player, then return PLAYER_NORMAL.
 

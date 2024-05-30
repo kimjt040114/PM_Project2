@@ -32,8 +32,12 @@ void Cell::InitObject(const std::string& objType)
     delete this->obj;
 
     if(objType == ObjectType::BOX){
-        
+        this->obj = new Box(this);
     }
+    else if(objType == ObjectType::PLAYER){
+        this->obj = new Player(this);
+    }
+
     this->obj = new CellObjBase(this);
 
     parent->objects[]
@@ -97,7 +101,12 @@ char Cell::GetIcon() const
     // Implement Cell::GetIcon.
     // Default icon is ' ', but if this cell has an object, then return the object's icon.
 
-
+    if(this->object == nullptr){
+        return ' ';
+    }
+    else{
+        return this->object->getIcon();
+    }
 
     //////////   TODO END   ////////////////////////////////////
 }
@@ -109,11 +118,23 @@ Cell* Cell::GetNeighbor(Direction dir) const
     // If the cell is placed at the border of the map and the direction is outside the map, return nullptr.
     // Else return the neighbor cell.
 
-    
+    if(dir == Direction::UP){
+        if(row == 0) return nullptr;
+        else return parent->GetCell(row-1, col);
+    }
 
-
-
-
+    if(dir == Direction::DOWN){
+        if(row == parent->getRowsize()) return nullptr;
+        else return parent->GetCell(row+1, col);
+    }
+    if(dir == Direction::LEFT){
+        if(col == 0) return nullptr;
+        else return parent->GetCell(row, col-1);
+    }
+    if(dir == Direction::RIGHT){
+        if(col == parent->getColsize()) return nullptr;
+        else return parent->GetCell(row, col+1)
+    }
 
     //////////   TODO END   ////////////////////////////////////
 }

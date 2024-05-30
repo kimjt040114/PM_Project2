@@ -8,6 +8,9 @@ Wall::Wall(Map* map, int row, int col) : Cell(map, row, col)
     this->cellType = CellType::WALL;
 }
 
+Wall::~Wall(){
+}
+
 
 
 

@@ -17,6 +17,7 @@ public:
     ObjectType GetType() { return ObjectType::PLAYER; }
 
     // Implement Player::GetAttr that returns NORMAL.
+    AttrType GetAttr() { return AttrType::NORMAL; }
 
     // Implement Player::GetIcon.
     // Default icon is ' ', but if the player has an item, then return the item's icon.
