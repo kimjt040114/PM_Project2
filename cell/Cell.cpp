@@ -32,17 +32,14 @@ void Cell::InitObject(const std::string& objType)
 
     delete this->obj;
 
-    // if(objType == ObjectType::BOX){
-    //     this->obj = Box(this);
-    // }
-    // else if(objType == ObjectType::PLAYER){
-    //     this->obj = Player(this);
-    // }
-
-    // this->obj = CellObjBase(this);
-
-    // parent->objects.find(objType)->second.push_back(this->obj);
-    
+    if(objType == "Box"){
+        this->obj = new Box(this);
+        parent->objects[ObjectType::BOX].push_back(this->obj);
+    }
+    else if(objType == "Player"){
+        this->obj = new Player(this);
+        parent->objects[ObjectType::PLAYER].push_back(this->obj);
+    }
 
     //////////   TODO END   ////////////////////////////////////
 }

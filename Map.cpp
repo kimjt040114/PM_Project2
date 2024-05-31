@@ -41,6 +41,59 @@ void Map::Initialize(int rowsize, int colsize, std::istream& ist)
     // 1. Read cell map and construct each cell.
     // 2. Initialize each object and its item.
 
+    for(int i=0; i < rowsize; i++){
+        std::getline(ist, line);
+        for(int j=0; j < line.length(); j++){
+            char c = line[j];
+            switch (c){
+                case '#':
+                    this->cells[i].push_back(new Wall(this, i, j));
+                    break;
+                case ' ':
+                    this->cells[i][j] = new Cell(this, i, j);
+                    break;
+                case '0':
+                case '1':
+                case '2':
+                case '3':
+                case '4':
+                case '5':
+                case '6':
+                case '7':
+                case '8':
+                case '9':
+                    this->cells[i][j] = new Home(this, i, j);
+                    this->homes.push_back(this->cells[i][j]);
+                    break;
+            }
+        }
+        for(int j=line.length(); j < colsize; j++) { this->cells[i][j]; }
+    }
+    
+    std::getline(ist, line);
+    int numObj = (int)line[0] - (int)'0';
+
+    for(int i=0; i < numObj; i++){
+        std::string objType;
+        std::string itemIcon;
+        std::string row_s, col_s;
+
+        std::getline(ist, objType, ' ');
+
+        std::getline(ist, itemIcon, ' ');
+
+        std::getline(ist, row_s, ' ');
+        std::getline(ist, col_s, ' ');
+        int row = (int)row_s[0] - (int)'0';
+        int col = (int)col_s[0] - (int)'0';
+
+        this->cells[row][col]->InitObject(objType);
+
+        this->cells[row][col]->GetObject()->InitItem(itemIcon[0]);
+    }
+    
+
+
     
 
 
