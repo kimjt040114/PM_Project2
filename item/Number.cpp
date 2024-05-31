@@ -10,6 +10,12 @@ Number::Number(CellObjBase* obj, int value) : ItemBase(obj), value(value)
 //////////     TODO     ////////////////////////////////////
 // Define overrided functions from Number.hpp.
 
+ItemType Number::GetType() const{
+    return ItemType::NUMBER;
+}
 
+char Number::GetIcon() const{
+    
+}
 
 //////////   TODO END   ////////////////////////////////////

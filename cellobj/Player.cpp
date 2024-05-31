@@ -17,17 +17,17 @@ bool Player::TryPush(Direction dir)
     // 4. If the neighbor had an object, then try to move that object in that direction and return the result.
     // 5. If any one of 2 to 4 is false, then return false.
 
-    Cell* neighbor = parent->getNeighbor();
+    Cell* neighbor = parent->GetNeighbor(dir);
 
     if(neighbor->cellType != CellType::WALL){
-        if(neighbor->object != nullptr){
-            if(neighbor->object->TryMove(dir)){
+        if(neighbor->GetObject() != nullptr){
+            if(neighbor->GetObject()->TryMove(dir)){
                 return true;
             }
         }
     }
 
-    else return false;
+    return false;
 
     //////////   TODO END   ////////////////////////////////////
 }
@@ -40,7 +40,7 @@ ObjectType Player::GetType() const{
 }
 
 AttrType Player::GetAttr() const{ 
-    return AttrType::NORMAL; 
+    return Terminal::Attr::NORMAL; 
 }
 
 

@@ -10,7 +10,7 @@ private:
 
 public:
     Home(Map* map, int row, int col);
-
+    ~Home();
     int getTargetNumber() { return targetNumber; }    
     
     bool Check();

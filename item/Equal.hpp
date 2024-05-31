@@ -10,6 +10,9 @@ class Equal : public ItemBase
 {
 public:
     Equal(CellObjBase* obj);
+
+    ItemType GetType() const override;
+    char GetIcon() const override;
     
 private:
 

@@ -15,7 +15,7 @@ private:
     bool initialized;
     std::vector<std::vector<Cell*>> cells;
 public:
-    std::map<ObjectType, std::vector<CellObjBase*>> 'objects';
+    std::map<ObjectType, std::vector<CellObjBase*>> objects;
     std::vector<Cell*> homes;
     std::vector<Equal*> equals;
 

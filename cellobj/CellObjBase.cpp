@@ -30,13 +30,13 @@ bool CellObjBase::TryMove(Direction dir)
     //    swap between the neighbor and return true
     // 5. If any one of 2 to 4 is false, then return false
 
-    Cell* neighbor = parent->getNeighbor();
-
+    Cell* neighbor = parent->GetNeighbor(dir);
+    
     if(neighbor != nullptr){
         if(neighbor->cellType != CellType::WALL){
-            if(neighbor->object != nullptr){
+            if(neighbor->GetObject() == nullptr){
                 parent->SwapObject(neighbor);
-                return true
+                return true;
             }
         }
     }
@@ -58,12 +58,29 @@ void CellObjBase::InitItem(char itemIcon)
     // ‘@’: Do nothing (this indicates an empty player).
     // else: Don’t care (throwing runtime_error is best).
 
-    if(itemIcon == '+'){ this->item = new Operator(this, ADD); }
-    else if(itemIcon == '-'){ this->item = new Operator(this, SUB); }
-    else if(itemIcon == '*'){ this->item = new Operator(this, MUL); }
-    else if(itemIcon == '='){ this->item = new Equal(); }
-    else if('0' <= ItemIcon && ItemIcon <= '9'){ new Number(this, int(ItemIcon) - int('0')); }
+    if(itemIcon == '+'){
+        ItemBase* newItem = new Operator(this, OpType::ADD);
+        this->item = newItem;
+    }
 
+    else if(itemIcon == '-'){
+        ItemBase* newItem = new Operator(this, OpType::SUB);
+        this->item = newItem;
+    }
+
+    else if(itemIcon == '*'){
+        ItemBase* newItem = new Operator(this, OpType::MUL);
+        this->item = newItem;
+    }
+    
+    else if(itemIcon == '='){ 
+        ItemBase* newItem = new Equal(this); 
+        this->item = newItem;
+    }
+    else if('0' <= itemIcon && itemIcon <= '9'){ 
+        ItemBase* newItem = new Number(this, (int(itemIcon) - int('0'))); 
+        this->item = newItem;
+    }
 
 
     //////////   TODO END   ////////////////////////////////////

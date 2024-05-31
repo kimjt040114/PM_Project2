@@ -11,8 +11,8 @@ ObjectType Box::GetType() const{
     return ObjectType::BOX; 
 }
 
-AttrType Box::GetAttr() { 
-    return AttrType::NORMAL; 
+AttrType Box::GetAttr() const{ 
+    return Terminal::Attr::NORMAL; 
 }
 
 //////////   TODO END   ////////////////////////////////////

@@ -14,10 +14,10 @@ public:
     // You don't have to override them if you want to keep using the CellObjBase functions.
 
     // Implement Player::GetType that returns PLAYER.
-    ObjectType GetType() { return ObjectType::PLAYER; }
+    ObjectType GetType() const;
 
     // Implement Player::GetAttr that returns NORMAL.
-    AttrType GetAttr() { return AttrType::NORMAL; }
+    AttrType GetAttr() const;
 
     // Implement Player::GetIcon.
     // Default icon is ' ', but if the player has an item, then return the item's icon.

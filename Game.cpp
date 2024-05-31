@@ -6,6 +6,7 @@
 #include <string>
 #include <sstream>
 #include <ostream>
+#include "cellobj/Player.hpp"
 #include "utils/Terminal.hpp"
 
 #include "Enums.hpp"
@@ -209,7 +210,8 @@ void Game::Move(Direction dir)
 
     this->map->RemoveGhosts();
 
-    for(Player* p : this->map->objects[PLAYER]){
+    for(auto i : this->map->objects.find(ObjectType::PLAYER)->second){
+        Player* p = new Player()
         if(p->TryPush(dir)){
             
         }

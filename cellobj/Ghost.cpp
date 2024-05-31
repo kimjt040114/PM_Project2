@@ -12,7 +12,7 @@ ObjectType Ghost::GetType() const{
 }
 
 AttrType Ghost::GetAttr() const{
-    return Attrtype::DIM; 
+    return Terminal::Attr::DIM; 
 }
 
 //////////   TODO END   ////////////////////////////////////

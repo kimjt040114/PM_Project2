@@ -29,18 +29,18 @@ void Cell::InitObject(const std::string& objType)
     // 2. Check objType and make corresponding object.
     // 3. push_back the object to the corresponding map->objects[].
 
-    delete this->obj;
+    // delete this->obj;
 
-    if(objType == ObjectType::BOX){
-        this->obj = new Box(this);
-    }
-    else if(objType == ObjectType::PLAYER){
-        this->obj = new Player(this);
-    }
+    // if(objType == ObjectType::BOX){
+    //     this->obj = Box(this);
+    // }
+    // else if(objType == ObjectType::PLAYER){
+    //     this->obj = Player(this);
+    // }
 
-    this->obj = new CellObjBase(this);
+    // this->obj = CellObjBase(this);
 
-    parent->objects[]
+    // parent->objects.find(objType)->second.push_back(this->obj);
     
 
     //////////   TODO END   ////////////////////////////////////
@@ -56,14 +56,15 @@ void Cell::SwapObject(Cell* other)
 
     Cell* tempCell = this;
 
-    if(this->obj != nullptr) this->obj = new CellObjBase(other); 
+    //if(this->obj != nullptr) this->obj = other->InitObject(other->obj->GetType()); 
     
-    if(other->obj != nullptr) other->obj = new CellObjBase(tempCell);
+    //if(other->obj != nullptr) other->obj = tempCell->InitObject(tempCell->);
 
     CellObjBase* tempObj = this->obj;
 
     this->obj = other->obj;
 
+    other->obj = tempObj;
 
     //////////   TODO END   ////////////////////////////////////
 }
@@ -101,11 +102,11 @@ char Cell::GetIcon() const
     // Implement Cell::GetIcon.
     // Default icon is ' ', but if this cell has an object, then return the object's icon.
 
-    if(this->object == nullptr){
+    if(this->obj == nullptr){
         return ' ';
     }
     else{
-        return this->object->getIcon();
+        return this->obj->GetIcon();
     }
 
     //////////   TODO END   ////////////////////////////////////
@@ -124,7 +125,7 @@ Cell* Cell::GetNeighbor(Direction dir) const
     }
 
     if(dir == Direction::DOWN){
-        if(row == parent->getRowsize()) return nullptr;
+        if(row == parent->GetRowsize()) return nullptr;
         else return parent->GetCell(row+1, col);
     }
     if(dir == Direction::LEFT){
@@ -132,9 +133,11 @@ Cell* Cell::GetNeighbor(Direction dir) const
         else return parent->GetCell(row, col-1);
     }
     if(dir == Direction::RIGHT){
-        if(col == parent->getColsize()) return nullptr;
-        else return parent->GetCell(row, col+1)
+        if(col == parent->GetColsize()) return nullptr;
+        else return parent->GetCell(row, col+1);
     }
+
+    return nullptr;
 
     //////////   TODO END   ////////////////////////////////////
 }

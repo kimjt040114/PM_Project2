@@ -16,9 +16,11 @@ public:
     // You don't have to override them if you want to keep using the ItemBase functions.
 
     // Implement Number::GetType that returns NUMBER.
+    ItemType GetType() const override;
 
     // Implement Number::GetIcon.
     // Return the value in printable form.
+    char GetIcon() const override;
 
     //////////   TODO END   ////////////////////////////////////
 };
