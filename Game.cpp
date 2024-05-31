@@ -210,12 +210,13 @@ void Game::Move(Direction dir)
 
     this->map->RemoveGhosts();
 
-    for(auto i : this->map->objects.find(ObjectType::PLAYER)->second){
-        Player* p = new Player()
-        if(p->TryPush(dir)){
-            
-        }
+    for(auto p : this->map->objects[ObjectType::PLAYER]){
+        if(!p->TryMove()) p->TryPush();
     }
+
+    this->map->SpawnGhosts();
+
+    
 
 
     //////////   TODO END   ////////////////////////////////////

@@ -22,7 +22,6 @@ public:
     ItemBase* GetItem() const { return this->item; }
 
     bool TryMove(Direction dir);
-
     
     //////////     TODO     ////////////////////////////////////
     // Optional: if you wish, you can implement some of these functions
@@ -32,5 +31,7 @@ public:
     virtual AttrType GetAttr() const = 0;
     virtual char GetIcon() const = 0;
 
+    virtual bool TryPush(Direction dir);
+    
     //////////   TODO END   ////////////////////////////////////
 };

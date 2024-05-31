@@ -15,4 +15,8 @@ AttrType Ghost::GetAttr() const{
     return Terminal::Attr::DIM; 
 }
 
+char Ghost::GetIcon() const{
+    return ' ';
+}
+
 //////////   TODO END   ////////////////////////////////////

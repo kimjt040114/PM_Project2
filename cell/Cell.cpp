@@ -24,12 +24,13 @@ Cell::~Cell()
 void Cell::InitObject(const std::string& objType)
 {
     //////////     TODO     ////////////////////////////////////
+
     // Initialize object.
     // 1. Delete existing object.
     // 2. Check objType and make corresponding object.
     // 3. push_back the object to the corresponding map->objects[].
 
-    // delete this->obj;
+    delete this->obj;
 
     // if(objType == ObjectType::BOX){
     //     this->obj = Box(this);
@@ -54,11 +55,9 @@ void Cell::SwapObject(Cell* other)
     // 2. If other->obj exists: change parent of other->obj.
     // 3. Swap this->obj and other->obj.
 
-    Cell* tempCell = this;
-
-    //if(this->obj != nullptr) this->obj = other->InitObject(other->obj->GetType()); 
+    if(this->obj != nullptr) this->obj->parent = other; 
     
-    //if(other->obj != nullptr) other->obj = tempCell->InitObject(tempCell->);
+    if(other->obj != nullptr) other->obj->parent = this;
 
     CellObjBase* tempObj = this->obj;
 
@@ -80,8 +79,12 @@ AttrType Cell::GetAttr() const
     // Implement Cell::GetAttr.
     // Default attr is NORMAL, but if this cell has an object, then OR(|) with the object's attr.
 
-
-
+    if(this->obj != nullptr){
+        return this->obj->GetAttr() | Terminal::Attr::NORMAL;
+    }
+    else{
+        return Terminal::Attr::NORMAL;
+    }
     //////////   TODO END   ////////////////////////////////////
 }
 
@@ -91,7 +94,12 @@ ColorPair Cell::GetColorPair() const
     // Implement Cell::GetColorPair.
     // Default ColorPair is NORMAL, but if this->object is a player, then return PLAYER_NORMAL.
 
-
+    if(this->obj->GetType() == ObjectType::PLAYER) {
+        return ColorPair::PLAYER_NORMAL;
+    }
+    else{
+        return ColorPair::NORMAL;
+    }
 
     //////////   TODO END   ////////////////////////////////////
 }

@@ -1,6 +1,7 @@
 #include "cellobj/Player.hpp"
 
 #include "Map.hpp"
+#include "Player.hpp"
 #include "cell/Cell.hpp"
 
 Player::Player(Cell* cell) : CellObjBase(cell)
@@ -43,5 +44,8 @@ AttrType Player::GetAttr() const{
     return Terminal::Attr::NORMAL; 
 }
 
+char Player::GetIcon() const{
+    return ' ';
+}
 
 //////////   TODO END   ////////////////////////////////////

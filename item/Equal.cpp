@@ -8,12 +8,12 @@ Equal::Equal(CellObjBase* obj) : ItemBase(obj){
 }
 
 
-ItemType Equal::GetItem() const{
-
+ItemType Equal::GetType() const{
+    return ItemType::EQUALS;
 }
 
 char Equal::GetIcon() const{
-
+    return '=';
 }
 
 

@@ -15,7 +15,7 @@ ItemType Number::GetType() const{
 }
 
 char Number::GetIcon() const{
-    
+    return char(value+int('0'));
 }
 
 //////////   TODO END   ////////////////////////////////////

@@ -1,5 +1,6 @@
 #include "cellobj/CellObjBase.hpp"
 
+#include "CellObjBase.hpp"
 #include "Enums.hpp"
 #include "Map.hpp"
 #include "cell/Cell.hpp"
@@ -18,6 +19,8 @@ CellObjBase::~CellObjBase()
 
     //////////   TODO END   ////////////////////////////////////
 }
+
+bool CellObjBase::TryPush(Direction dir) { return false; }
 
 bool CellObjBase::TryMove(Direction dir)
 {
@@ -38,6 +41,10 @@ bool CellObjBase::TryMove(Direction dir)
                 parent->SwapObject(neighbor);
                 return true;
             }
+            
+            // for the case that 'this' is player. it can push, not only just move.
+            // !! should check whether it works well !!
+            this->TryPush(dir);
         }
     }
 
@@ -45,6 +52,7 @@ bool CellObjBase::TryMove(Direction dir)
 
     //////////   TODO END   ////////////////////////////////////
 }
+
 
 void CellObjBase::InitItem(char itemIcon)
 {

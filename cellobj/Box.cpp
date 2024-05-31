@@ -15,4 +15,8 @@ AttrType Box::GetAttr() const{
     return Terminal::Attr::NORMAL; 
 }
 
+char Box::GetIcon() const{
+    return ' ';
+}
+
 //////////   TODO END   ////////////////////////////////////
