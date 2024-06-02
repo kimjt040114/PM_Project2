@@ -1,6 +1,7 @@
 //////////     TODO     ////////////////////////////////////
 // Implement the methods of your Home class
 #include "cell/Home.hpp"
+#include "Enums.hpp"
 #include "utils/Terminal.hpp"
 
 Home::Home(Map* map, int row, int col) : Cell(map, row, col){
@@ -8,6 +9,20 @@ Home::Home(Map* map, int row, int col) : Cell(map, row, col){
 }
 
 Home::~Home(){
+}
+
+bool Home::Check() const{
+    if(this->obj != nullptr && this->obj->GetItem()->GetType() == ItemType::NUMBER){
+        if(targetNumber == int(this->obj->GetItem()->GetIcon()) - int('0')){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    else{
+        return false;
+    }
 }
 
 // Implement Home::GetAttr.
@@ -22,9 +37,28 @@ AttrType Home::GetAttr() const{
 }
 
 // Implement Home::GetColorPair.
-// Default ColorPair is NORMAL, but if this->object is a player, then return PLAYER_NORMAL.
 ColorPair Home::GetColorPair() const{
-    
+    if(this->obj != nullptr){
+        if(this->Check()){
+            if(this->obj->GetType() == ObjectType::PLAYER){
+                return ColorPair::PLAYER_CORRECT;
+            }
+            else{
+                return ColorPair::CORRECT;
+            }
+        }
+        else{
+            if(this->obj->GetType() == ObjectType::PLAYER){
+                return ColorPair::PLAYER_WRONG;
+            }
+            else{
+                return ColorPair::WRONG;
+            }
+        }
+    }
+    else{
+        return ColorPair::NORMAL;
+    }
 }
 
 // Implement Home::GetIcon.

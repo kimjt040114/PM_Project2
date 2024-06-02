@@ -14,7 +14,7 @@ public:
     //////////     TODO     ////////////////////////////////////
     // Override virtual functions from ItemBase.
     // You don't have to override them if you want to keep using the ItemBase functions.
-
+    int GetValue() { return value; }
     // Implement Number::GetType that returns NUMBER.
     ItemType GetType() const override;
 

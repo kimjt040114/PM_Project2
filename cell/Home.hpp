@@ -13,7 +13,7 @@ public:
     ~Home();
     int getTargetNumber() { return targetNumber; }    
     
-    bool Check();
+    bool Check() const;
 
     // Implement Home::GetAttr.
     // Default attr is REVERSE, but if this cell has an object, then OR(|) with the object's attr.
