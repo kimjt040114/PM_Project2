@@ -1,4 +1,5 @@
 #pragma once
+#include "Enums.hpp"
 #include "cell/Cell.hpp"
 
 class Wall : public Cell
@@ -12,12 +13,15 @@ public:
 
     // Implement Wall::GetAttr.
     // Default attr is REVERSE, but if this cell has an object, then OR(|) with the object's attr.
-    
+    AttrType GetAttr() const;
+
     // Implement Wall::GetColorPair.
     // Default ColorPair is NORMAL, but if this->object is a player, then return PLAYER_NORMAL.
-
-    // Implement Cell::GetIcon.
+    ColorPair GetColorPair() const;
+    
+    // Implement Wall::GetIcon.
     // Default icon is ' ', but if this cell has an object, then return the object's icon.
+    char GetIcon() const;
 
     //////////   TODO END   ////////////////////////////////////
 };

@@ -30,8 +30,6 @@ public:
     virtual ObjectType GetType() const = 0;
     virtual AttrType GetAttr() const = 0;
     virtual char GetIcon() const = 0;
-
-    virtual bool TryPush(Direction dir);
     
     //////////   TODO END   ////////////////////////////////////
 };

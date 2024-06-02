@@ -43,14 +43,14 @@ void Map::Initialize(int rowsize, int colsize, std::istream& ist)
 
     for(int i=0; i < rowsize; i++){
         std::getline(ist, line);
-        for(int j=0; j < line.length(); j++){
+        for(unsigned int j=0; j < line.length(); j++){
             char c = line[j];
             switch (c){
                 case '#':
                     this->cells[i].push_back(new Wall(this, i, j));
                     break;
                 case ' ':
-                    this->cells[i][j] = new Cell(this, i, j);
+                    this->cells[i].push_back(new Cell(this, i, j));
                     break;
                 case '0':
                 case '1':
@@ -62,8 +62,8 @@ void Map::Initialize(int rowsize, int colsize, std::istream& ist)
                 case '7':
                 case '8':
                 case '9':
-                    this->cells[i][j] = new Home(this, i, j);
-                    this->homes.push_back(this->cells[i][j]);
+                    this->cells[i].push_back(new Home(this, i, j));
+                    this->homes.push_back((Home*)this->cells[i][j]);
                     break;
             }
         }
@@ -83,7 +83,7 @@ void Map::Initialize(int rowsize, int colsize, std::istream& ist)
         std::getline(ist, itemIcon, ' ');
 
         std::getline(ist, row_s, ' ');
-        std::getline(ist, col_s, ' ');
+        std::getline(ist, col_s, '\n');
         int row = (int)row_s[0] - (int)'0';
         int col = (int)col_s[0] - (int)'0';
 
@@ -92,13 +92,6 @@ void Map::Initialize(int rowsize, int colsize, std::istream& ist)
         this->cells[row][col]->GetObject()->InitItem(itemIcon[0]);
     }
     
-
-
-    
-
-
-
-
     //////////   TODO END   ////////////////////////////////////
     this->initialized = true;
 }

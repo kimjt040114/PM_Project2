@@ -30,8 +30,10 @@ void Cell::InitObject(const std::string& objType)
     // 2. Check objType and make corresponding object.
     // 3. push_back the object to the corresponding map->objects[].
 
-    delete this->obj;
-
+    if(this->obj != nullptr){
+        delete this->obj;
+    }
+    //I love you
     if(objType == "Box"){
         this->obj = new Box(this);
         parent->objects[ObjectType::BOX].push_back(this->obj);
@@ -90,8 +92,7 @@ ColorPair Cell::GetColorPair() const
     //////////     TODO     ////////////////////////////////////
     // Implement Cell::GetColorPair.
     // Default ColorPair is NORMAL, but if this->object is a player, then return PLAYER_NORMAL.
-
-    if(this->obj->GetType() == ObjectType::PLAYER) {
+    if(this->obj != nullptr && this->obj->GetType() == ObjectType::PLAYER) {
         return ColorPair::PLAYER_NORMAL;
     }
     else{

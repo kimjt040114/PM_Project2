@@ -2,7 +2,7 @@ CC = g++
 
 # C++ compiler options
 # CXXFLAGS = -W -Wall -O3 -I . -std=c++14  # for release
-CXXFLAGS = -W -Wall -Og -I . -g -std=c++14  # for debug
+CXXFLAGS = -W -Wall -O0 -I . -g -std=c++14  # for debug
 
 # C/C++ preprocessor options
 CPPFLAGS =

@@ -5,6 +5,7 @@
 #include "cell/Cell.hpp"
 #include "cellobj/Ghost.hpp"
 #include "item/Equal.hpp"
+#include "cell/Home.hpp"
 class Game;
 
 class Map
@@ -16,7 +17,7 @@ private:
     std::vector<std::vector<Cell*>> cells;
 public:
     std::map<ObjectType, std::vector<CellObjBase*>> objects;
-    std::vector<Cell*> homes;
+    std::vector<Home*> homes;
     std::vector<Equal*> equals;
 
     Map(Game* game);

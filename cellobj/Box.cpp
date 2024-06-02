@@ -16,7 +16,12 @@ AttrType Box::GetAttr() const{
 }
 
 char Box::GetIcon() const{
-    return ' ';
+    if(this->item != nullptr){
+        return this->item->GetIcon();
+    }
+    else{
+        return ' ';
+    }
 }
 
 //////////   TODO END   ////////////////////////////////////

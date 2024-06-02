@@ -210,7 +210,8 @@ void Game::Move(Direction dir)
 
     this->map->RemoveGhosts();
 
-    for(auto p : this->map->objects[ObjectType::PLAYER]){
+    for(auto i : this->map->objects[ObjectType::PLAYER]){
+        Player* p = (Player*)i;
         if(!p->TryMove(dir)) p->TryPush(dir);
     }
 
