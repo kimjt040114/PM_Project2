@@ -12,7 +12,7 @@ Home::~Home(){
 }
 
 bool Home::Check() const{
-    if(this->obj != nullptr && this->obj->GetItem()->GetType() == ItemType::NUMBER){
+    if(this->obj != nullptr && this->obj->GetItem() != nullptr && this->obj->GetItem()->GetType() == ItemType::NUMBER){
         if(targetNumber == int(this->obj->GetItem()->GetIcon()) - int('0')){
             return true;
         }

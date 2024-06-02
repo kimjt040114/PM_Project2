@@ -1,5 +1,6 @@
 #include "cellobj/Player.hpp"
 
+#include "Enums.hpp"
 #include "Map.hpp"
 #include "Player.hpp"
 #include "cell/Cell.hpp"
@@ -23,7 +24,14 @@ bool Player::TryPush(Direction dir)
     if(neighbor->cellType != CellType::WALL){
         if(neighbor->GetObject() != nullptr){
             if(neighbor->GetObject()->TryMove(dir)){
+                this->TryMove(dir);
                 return true;
+            }
+            else if(neighbor->GetObject()->GetType() == ObjectType::PLAYER){
+                if(((Player*)neighbor->GetObject())->TryPush(dir)){
+                    this->TryMove(dir);
+                    return true;
+                }
             }
         }
     }

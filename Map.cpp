@@ -121,9 +121,11 @@ bool Map::IsCleared() const
 {
     //////////     TODO     ////////////////////////////////////
     // Check if every home has the correct number.
+    for(auto h : this->homes){
+        if(!h->Check()) return false;
+    }
 
-
-
+    return true;
     //////////   TODO END   ////////////////////////////////////
 }
 

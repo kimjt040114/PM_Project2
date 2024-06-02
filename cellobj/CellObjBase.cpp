@@ -43,7 +43,7 @@ bool CellObjBase::TryMove(Direction dir)
 
             // for the case that 'this' is player. it can push, not only just move.
             // !! should check whether it works well !!
-            if(this->GetType() == ObjectType::PLAYER) ((Player*)this)->TryPush(dir);
+            // if(this->GetType() == ObjectType::PLAYER) ((Player*)this)->TryPush(dir);
         }
     }
 
