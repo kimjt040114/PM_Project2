@@ -9,7 +9,7 @@ private:
     int targetNumber;
 
 public:
-    Home(Map* map, int row, int col);
+    Home(Map* map, int row, int col, char target);
     ~Home();
     int getTargetNumber() { return targetNumber; }    
     

@@ -62,7 +62,7 @@ void Map::Initialize(int rowsize, int colsize, std::istream& ist)
                 case '7':
                 case '8':
                 case '9':
-                    this->cells[i].push_back(new Home(this, i, j));
+                    this->cells[i].push_back(new Home(this, i, j, c));
                     this->homes.push_back((Home*)this->cells[i][j]);
                     break;
             }

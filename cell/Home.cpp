@@ -4,8 +4,9 @@
 #include "Enums.hpp"
 #include "utils/Terminal.hpp"
 
-Home::Home(Map* map, int row, int col) : Cell(map, row, col){
+Home::Home(Map* map, int row, int col, char target) : Cell(map, row, col){
     this->cellType = CellType::HOME;
+    this->targetNumber = int(target) - int('0');
 }
 
 Home::~Home(){
