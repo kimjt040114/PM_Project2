@@ -47,6 +47,9 @@ void Cell::InitObject(const std::string& objType)
         this->obj = new Ghost(this);
         parent->objects[ObjectType::GHOST].push_back(this->obj);
     }
+    else{
+        this->obj = nullptr;
+    }
 
     //////////   TODO END   ////////////////////////////////////
 }

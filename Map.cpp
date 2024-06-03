@@ -3,6 +3,7 @@
 #include <cmath>
 #include <istream>
 #include <string>
+#include <algorithm>
 #include <utility>
 #include <vector>
 #include "Enums.hpp"
@@ -68,7 +69,7 @@ void Map::Initialize(int rowsize, int colsize, std::istream& ist)
                 case '8':
                 case '9':
                     this->cells[i].push_back(new Home(this, i, j, c));
-                    this->homes.push_back((Home*)this->cells[i][j]);
+                    this->homes.push_back(this->cells[i][j]);
                     break;
             }
         }
@@ -133,7 +134,7 @@ bool Map::IsCleared() const
     //////////     TODO     ////////////////////////////////////
     // Check if every home has the correct number.
     for(auto h : this->homes){
-        if(!h->Check()) return false;
+        if(!((Home*)h)->Check()) return false;
     }
 
     return true;
@@ -167,12 +168,16 @@ std::string evaluateExpr(std::string expr){
     // evaluate
     cnt=0;
     int n1=0, n2=0;
+    std::string n1_s(""), n2_s("");
+    
     char op;
     while(expr[cnt] != '+' && expr[cnt] != '-' && expr[cnt] != '*'){
-        n1 += std::pow(10, cnt) * ((int)expr[cnt] - (int)'0');
+        n1_s.push_back(expr[cnt]);
         cnt++;
         if(cnt == expr.size()) break;
     }
+    n1 = std::stoi(n1_s);
+
     expr.erase(0, cnt);
     if(negFirstNum) n1 *= -1;
 
@@ -181,10 +186,12 @@ std::string evaluateExpr(std::string expr){
         expr.erase(0, 1);
         cnt=0;
         while(expr[cnt] != '+' && expr[cnt] != '-' && expr[cnt] != '*'){
-            n2 += std::pow(10, cnt) * ((int)expr[cnt] - (int)'0');
+            n2_s.push_back(expr[cnt]);
             cnt++;
             if(cnt == expr.size()) break;
         }
+        n2 = std::stoi(n2_s);
+
         expr.erase(0, cnt);
 
         switch (op){
@@ -235,11 +242,11 @@ void Map::SpawnGhosts()
             char ghostNum = result[i];
             cellptr = cellptr->GetNeighbor(Direction::RIGHT);
             if(cellptr != nullptr){
-                if(cellptr->GetObject() == nullptr || cellptr->GetObject()->GetType() != ObjectType::GHOST){
+                if(cellptr->GetObject() == nullptr){
                     cellptr->InitObject("Ghost");
                     cellptr->GetObject()->InitItem(ghostNum);
                 }
-                else{
+                else if(cellptr->GetObject()->GetType() == ObjectType::GHOST){
                     if(ghostNum > cellptr->GetObject()->GetItem()->GetIcon()){
                         for(auto iter = this->objects[ObjectType::GHOST].begin(); 
                             iter != this->objects[ObjectType::GHOST].end(); iter++){
@@ -262,11 +269,11 @@ void Map::SpawnGhosts()
             char ghostNum = result[i];
             cellptr = cellptr->GetNeighbor(Direction::DOWN);
             if(cellptr != nullptr){
-                if(cellptr->GetObject() == nullptr || cellptr->GetObject()->GetType() != ObjectType::GHOST){
+                if(cellptr->GetObject() == nullptr){
                     cellptr->InitObject("Ghost");
                     cellptr->GetObject()->InitItem(ghostNum);
                 }
-                else{
+                else if(cellptr->GetObject()->GetType() == ObjectType::GHOST){
                     if(ghostNum > cellptr->GetObject()->GetItem()->GetIcon()){
                         std::vector<CellObjBase*> ghosts = this->objects[ObjectType::GHOST];
                         for(auto iter = ghosts.begin(); iter != ghosts.end(); iter++){
@@ -295,8 +302,7 @@ void Map::RemoveGhosts()
     // Remove every ghosts and clear this->objects[GHOST].
     std::vector<CellObjBase*> ghosts = this->objects[ObjectType::GHOST];
     for(auto& g: ghosts){
-        delete g;
-        g = nullptr;
+        g->parent->InitObject("");
     }
 
     this->objects[ObjectType::GHOST].clear();

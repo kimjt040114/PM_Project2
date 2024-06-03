@@ -17,7 +17,7 @@ private:
     std::vector<std::vector<Cell*>> cells;
 public:
     std::map<ObjectType, std::vector<CellObjBase*>> objects;
-    std::vector<Home*> homes;
+    std::vector<Cell*> homes;
     std::vector<Equal*> equals;
 
     Map(Game* game);
