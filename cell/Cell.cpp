@@ -1,6 +1,7 @@
 #include "cell/Cell.hpp"
 
 #include <string>
+#include "Enums.hpp"
 #include "utils/Terminal.hpp"
 
 #include "Map.hpp"
@@ -41,6 +42,10 @@ void Cell::InitObject(const std::string& objType)
     else if(objType == "Player"){
         this->obj = new Player(this);
         parent->objects[ObjectType::PLAYER].push_back(this->obj);
+    }
+    else if(objType == "Ghost"){
+        this->obj = new Ghost(this);
+        parent->objects[ObjectType::GHOST].push_back(this->obj);
     }
 
     //////////   TODO END   ////////////////////////////////////

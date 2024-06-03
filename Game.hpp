@@ -27,7 +27,7 @@ private:
 
 public:
     GameState gameState = GameState::GAMEOVER;
-
+    
     Game(std::string levelName);
     ~Game();
 

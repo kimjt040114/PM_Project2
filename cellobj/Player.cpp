@@ -53,7 +53,12 @@ AttrType Player::GetAttr() const{
 }
 
 char Player::GetIcon() const{
-    return ' ';
+    if(this->item != nullptr){
+        return this->item->GetIcon();
+    }
+    else{
+        return ' ';
+    }
 }
 
 //////////   TODO END   ////////////////////////////////////

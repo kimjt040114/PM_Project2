@@ -4,6 +4,7 @@
 #pragma once
 #include <iostream>
 
+#include "Enums.hpp"
 #include "item/ItemBase.hpp"
 
 class Equal : public ItemBase
@@ -13,6 +14,8 @@ public:
 
     ItemType GetType() const override;
     char GetIcon() const override;
+
+    std::string GetExpression(Direction dir);
     
 private:
 

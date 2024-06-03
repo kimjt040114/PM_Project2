@@ -185,13 +185,28 @@ void Game::AskExit()
         "  q: quit\n"
         "  z: resume\n"
     );
+
     //////////     TODO     ////////////////////////////////////
     // Implement 'exiting state'.
     // Press ‘Q’ again to quit the game.
     // Press ‘Z’ to resume the game and clear the terminal message.
 
+    Command cmd = Terminal::GetCommand();
+    switch (cmd){
+        case Command::EXIT:
+            this->gameState = GameState::GAMEOVER;
+            return;
 
+        case Command::UNDO:
+            Undo();
+            this->gameState = GameState::PLAYING;
+            Terminal::ClearMessage();
+            return;
+            
+        default:
+            return;
 
+    }
 
     //////////   TODO END   ////////////////////////////////////
 }
@@ -219,9 +234,6 @@ void Game::Move(Direction dir)
     if(this->map->IsCleared()) this->gameState = GameState::CLEARED;
 
     this->map->PrintAll();
-
-
-
 
     //////////   TODO END   ////////////////////////////////////
 }

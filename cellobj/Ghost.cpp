@@ -16,7 +16,12 @@ AttrType Ghost::GetAttr() const{
 }
 
 char Ghost::GetIcon() const{
-    return ' ';
+    if(this->item != nullptr){
+        return this->item->GetIcon();
+    }
+    else{
+        return ' ';
+    }
 }
 
 //////////   TODO END   ////////////////////////////////////
