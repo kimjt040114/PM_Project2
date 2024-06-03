@@ -8,6 +8,7 @@
 #include "item/Number.hpp"
 #include "item/Operator.hpp"
 #include "item/Equal.hpp"
+#include <cstddef>
 
 CellObjBase::CellObjBase(Cell* cell) : parent(cell)
 {
@@ -17,7 +18,8 @@ CellObjBase::~CellObjBase()
 {
     //////////     TODO     ////////////////////////////////////
     // Modify destructor if you needed.
-
+    delete this->item;
+    this->item = nullptr;
     //////////   TODO END   ////////////////////////////////////
 }
 

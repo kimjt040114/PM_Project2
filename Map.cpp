@@ -168,7 +168,7 @@ std::string evaluateExpr(std::string expr){
     cnt=0;
     int n1=0, n2=0;
     char op;
-    while(expr[cnt] != '+' || expr[cnt] != '-' || expr[cnt] != '*'){
+    while(expr[cnt] != '+' && expr[cnt] != '-' && expr[cnt] != '*'){
         n1 += std::pow(10, cnt) * ((int)expr[cnt] - (int)'0');
         cnt++;
         if(cnt == expr.size()) break;
@@ -177,12 +177,13 @@ std::string evaluateExpr(std::string expr){
     if(negFirstNum) n1 *= -1;
 
     while(!expr.empty()){
-        op = expr[cnt];
+        op = expr[0];
         expr.erase(0, 1);
         cnt=0;
-        while(expr[cnt] != '+' || expr[cnt] != '-' || expr[cnt] != '*'){
+        while(expr[cnt] != '+' && expr[cnt] != '-' && expr[cnt] != '*'){
             n2 += std::pow(10, cnt) * ((int)expr[cnt] - (int)'0');
             cnt++;
+            if(cnt == expr.size()) break;
         }
         expr.erase(0, cnt);
 
@@ -267,8 +268,8 @@ void Map::SpawnGhosts()
                 }
                 else{
                     if(ghostNum > cellptr->GetObject()->GetItem()->GetIcon()){
-                        for(auto iter = this->objects[ObjectType::GHOST].begin(); 
-                            iter != this->objects[ObjectType::GHOST].end(); iter++){
+                        std::vector<CellObjBase*> ghosts = this->objects[ObjectType::GHOST];
+                        for(auto iter = ghosts.begin(); iter != ghosts.end(); iter++){
                             if( (*iter)->parent == cellptr ) this->objects[ObjectType::GHOST].erase(iter);
                         }
                         cellptr->InitObject("Ghost");
@@ -292,8 +293,13 @@ void Map::RemoveGhosts()
 {
     //////////     TODO     ////////////////////////////////////
     // Remove every ghosts and clear this->objects[GHOST].
-    
+    std::vector<CellObjBase*> ghosts = this->objects[ObjectType::GHOST];
+    for(auto& g: ghosts){
+        delete g;
+        g = nullptr;
+    }
 
-    PrintAll();
+    this->objects[ObjectType::GHOST].clear();
+
     //////////   TODO END   ////////////////////////////////////    
 }
