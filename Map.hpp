@@ -36,4 +36,8 @@ public:
 
     void SpawnGhosts();
     void RemoveGhosts();
+
+    void ClearObjects();
+
+    std::vector<std::string> GetObjInfo();
 };

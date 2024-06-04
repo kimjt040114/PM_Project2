@@ -99,9 +99,7 @@ void Map::Initialize(int rowsize, int colsize, std::istream& ist)
         }
 
         this->cells[row][col]->GetObject()->InitItem(itemIcon[0]);
-        if(itemIcon == "="){
-            (this->equals).push_back((Equal*)(this->cells[row][col]->GetObject()->GetItem()));
-        }
+
     }
     
     //////////   TODO END   ////////////////////////////////////
@@ -148,9 +146,9 @@ std::string evaluateExpr(std::string expr){
     if(expr[0] == '*') return "";
 
     int cnt = 0;
-    for(cnt=0; cnt < expr.size(); cnt++){
+    for(cnt=0; cnt < (int)expr.size(); cnt++){
         if(expr[cnt] == '+' || expr[cnt] == '-' || expr[cnt] == '*'){
-            if(cnt == expr.size() - 1) return "";
+            if(cnt == (int)expr.size() - 1) return "";
             else if(expr[cnt+1] == '+' || expr[cnt+1] == '-' || expr[cnt+1] == '*') return "";
         }
     }
@@ -174,7 +172,7 @@ std::string evaluateExpr(std::string expr){
     while(expr[cnt] != '+' && expr[cnt] != '-' && expr[cnt] != '*'){
         n1_s.push_back(expr[cnt]);
         cnt++;
-        if(cnt == expr.size()) break;
+        if(cnt == (int)expr.size()) break;
     }
     n1 = std::stoi(n1_s);
 
@@ -189,7 +187,7 @@ std::string evaluateExpr(std::string expr){
         while(expr[cnt] != '+' && expr[cnt] != '-' && expr[cnt] != '*'){
             n2_s.push_back(expr[cnt]);
             cnt++;
-            if(cnt == expr.size()) break;
+            if(cnt == (int)expr.size()) break;
         }
         n2 = std::stoi(n2_s);
 
@@ -219,8 +217,8 @@ void Map::SpawnGhosts()
     // For every equal, evaluate left/upper expression, get result string, and spawn ghosts.
 
     // Sorting equals.
-    for(int i=0; i < this->equals.size(); i++){
-        for(int j=i; j < this->equals.size() - 1; j++){
+    for(int i=0; i < (int)this->equals.size(); i++){
+        for(int j=i; j < (int)this->equals.size() - 1; j++){
             if(this->equals[j]->parent->parent->row > this->equals[j+1]->parent->parent->row ||
                 (this->equals[j]->parent->parent->row == this->equals[j+1]->parent->parent->row &&
                 this->equals[j]->parent->parent->col > this->equals[j+1]->parent->parent->col))
@@ -238,7 +236,7 @@ void Map::SpawnGhosts()
         if(!result.empty()){
             // initialize obj, item
             Cell *cellptr = eq->parent->parent;
-            for(int i=0; i < result.size(); i++){
+            for(int i=0; i < (int)result.size(); i++){
                 char ghostNum = result[i];
                 cellptr = cellptr->GetNeighbor(Direction::RIGHT);
                 if(cellptr != nullptr){
@@ -266,7 +264,7 @@ void Map::SpawnGhosts()
         if(!result.empty()){    
             // initialize obj, item
             Cell *cellptr = eq->parent->parent;
-            for(int i=0; i < result.size(); i++){
+            for(int i=0; i < (int)result.size(); i++){
                 char ghostNum = result[i];
                 cellptr = cellptr->GetNeighbor(Direction::DOWN);
                 if(cellptr != nullptr){
@@ -277,9 +275,8 @@ void Map::SpawnGhosts()
                     else if(cellptr->GetObject()->GetType() == ObjectType::GHOST){
                         if(ghostNum > cellptr->GetObject()->GetItem()->GetIcon()){
                             std::vector<CellObjBase*> ghosts = this->objects[ObjectType::GHOST];
-                            for(auto iter = ghosts.begin(); iter != ghosts.end(); iter++){
-                                if( (*iter)->parent == cellptr ) this->objects[ObjectType::GHOST].erase(iter);
-                            }
+                            auto i = std::find(this->objects[ObjectType::GHOST].begin(), this->objects[ObjectType::GHOST].end(), cellptr->GetObject());
+                            this->objects[ObjectType::GHOST].erase(i);
                             cellptr->InitObject("Ghost");
                             cellptr->GetObject()->InitItem(ghostNum);
                         }
@@ -311,3 +308,43 @@ void Map::RemoveGhosts()
 
     //////////   TODO END   ////////////////////////////////////    
 }
+
+void Map::ClearObjects(){
+    for(int i=0; i < GetRowsize(); i++){
+        for(int j=0; j < GetColsize(); j++){
+            this->cells[i][j]->InitObject("");
+        }
+    }
+
+    this->objects[ObjectType::BOX].clear();
+    this->objects[ObjectType::PLAYER].clear();
+    this->objects[ObjectType::GHOST].clear();
+    this->equals.clear();
+}
+
+std::vector<std::string> Map::GetObjInfo(){
+    std::vector<std::string> objInfo;
+    std::string objInfo_s;
+    
+    for(int i=0; i < GetRowsize(); i++){
+        for(int j=0; j < GetColsize(); j++){
+            if(cells[i][j]->GetObject() != nullptr){
+                if(cells[i][j]->GetObject()->GetType() == ObjectType::BOX){
+                    objInfo_s.append("Box ");
+                    objInfo_s.push_back(cells[i][j]->GetObject()->GetIcon());
+                    objInfo_s.append(" "+std::to_string(i)+" "+std::to_string(j));
+                }
+                else if(cells[i][j]->GetObject()->GetType() == ObjectType::PLAYER){
+                    objInfo_s.append("Player ");
+                    objInfo_s.push_back(cells[i][j]->GetObject()->GetIcon());
+                    objInfo_s.append(" "+std::to_string(i)+" "+std::to_string(j));
+                }
+                objInfo.push_back(objInfo_s);
+                objInfo_s.clear();
+            }
+        }
+    }
+
+    return objInfo;
+}
+

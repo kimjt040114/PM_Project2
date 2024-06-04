@@ -145,7 +145,7 @@ void Game::Load(std::string filename)
 
     //////////     TODO     ////////////////////////////////////
     // Add undo-related logic if you needed.
-
+    undoStack.push(this->map->GetObjInfo());
     //////////   TODO END   ////////////////////////////////////
 }
 
@@ -199,7 +199,6 @@ void Game::AskExit()
             return;
 
         case Command::UNDO:
-            Undo();
             this->gameState = GameState::PLAYING;
             Terminal::ClearMessage();
             return;
@@ -225,9 +224,12 @@ void Game::Move(Direction dir)
     // 6. Push current map state to undo stack.
 
     this->map->RemoveGhosts();
+
+    undoStack.push(this->map->GetObjInfo());
     
-    for(int i=0; i < this->map->objects[ObjectType::PLAYER].size(); i++){
-        for(int j=i; j < this->map->objects[ObjectType::PLAYER].size() - 1; j++){
+    // Sorting PLAYERs.
+    for(int i=0; i < (int)this->map->objects[ObjectType::PLAYER].size(); i++){
+        for(int j=i; j < (int)this->map->objects[ObjectType::PLAYER].size() - 1; j++){
             if(this->map->objects[ObjectType::PLAYER][j]->parent->row > this->map->objects[ObjectType::PLAYER][j+1]->parent->row ||
                 (this->map->objects[ObjectType::PLAYER][j]->parent->row == this->map->objects[ObjectType::PLAYER][j+1]->parent->row &&
                 this->map->objects[ObjectType::PLAYER][j]->parent->col > this->map->objects[ObjectType::PLAYER][j+1]->parent->col))
@@ -272,6 +274,37 @@ void Game::Undo()
     // 4. Spawn ghosts.
     // 5. Check if the game’s clear condition is met, and change the game state.
     // 6. Print the map.
+    if(undoStack.empty()) return;
+
+    this->map->RemoveGhosts();
+
+    this->map->ClearObjects();
+
+    std::vector<std::string> objState = undoStack.top();
+    undoStack.pop();
+
+    for(auto obj: objState){
+        auto pos = obj.find(' ');
+        std::string objType(obj.substr(0, pos));
+
+        obj.erase(0, pos+1);
+
+        char icon = *(obj.substr(0, 1).data());
+
+        obj.erase(0, 2);
+
+        int row = (int)obj[0] - (int)'0';
+        int col = (int)obj[2] - (int)'0';
+
+        this->map->GetCell(row, col)->InitObject(objType);
+        this->map->GetCell(row, col)->GetObject()->InitItem(icon);
+    }
+
+    this->map->SpawnGhosts();
+
+    if(this->map->IsCleared()) this->gameState = GameState::CLEARED;
+
+    this->map->PrintAll();
 
     //////////   TODO END   ////////////////////////////////////
 }

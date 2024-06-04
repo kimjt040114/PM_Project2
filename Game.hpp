@@ -1,6 +1,7 @@
 #pragma once
 #include <memory>
 #include <deque>
+#include <stack>
 
 #include "Map.hpp"
 #include "Enums.hpp"
@@ -9,6 +10,8 @@
 class Game
 {
 private:
+    std::stack<std::vector<std::string>> undoStack;
+
     Map* map = nullptr;
 
     std::string levelName;
