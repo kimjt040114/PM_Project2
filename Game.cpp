@@ -171,8 +171,33 @@ void Game::StartSolve(std::string filename)
     // Any keystroke except ‘Q’ will simulate the given input and will progress to next move.
     // If you press ‘Q’, then the solving state ends.
     // When the solving state ends, clear the terminal message.
-
-
+    while(!this->map->IsCleared()){
+        Command cmd = Terminal::GetCommand();
+        switch (cmd){
+            case Command::EXIT:
+                this->gameState = GameState::PLAYING;
+                Terminal::ClearMessage();
+                return;
+                
+            default:
+                switch (line[0]){
+                    case 'W': 
+                        Move(Direction::UP);
+                        break;
+                    case 'A':
+                        Move(Direction::LEFT);
+                        break;
+                    case 'S':
+                        Move(Direction::DOWN);
+                        break;
+                    case 'D':
+                        Move(Direction::RIGHT);
+                        break;
+                }
+                line.erase(0, 1);
+                break;
+        }
+    }
 
 
     //////////   TODO END   ////////////////////////////////////
