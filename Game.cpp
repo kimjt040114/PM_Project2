@@ -6,6 +6,7 @@
 #include <string>
 #include <sstream>
 #include <ostream>
+#include "cellobj/CellObjBase.hpp"
 #include "cellobj/Player.hpp"
 #include "utils/Terminal.hpp"
 
@@ -224,9 +225,31 @@ void Game::Move(Direction dir)
     // 6. Push current map state to undo stack.
 
     this->map->RemoveGhosts();
+    
+    for(int i=0; i < this->map->objects[ObjectType::PLAYER].size(); i++){
+        for(int j=i; j < this->map->objects[ObjectType::PLAYER].size() - 1; j++){
+            if(this->map->objects[ObjectType::PLAYER][j]->parent->row > this->map->objects[ObjectType::PLAYER][j+1]->parent->row ||
+                (this->map->objects[ObjectType::PLAYER][j]->parent->row == this->map->objects[ObjectType::PLAYER][j+1]->parent->row &&
+                this->map->objects[ObjectType::PLAYER][j]->parent->col > this->map->objects[ObjectType::PLAYER][j+1]->parent->col))
+            {
+                Player* temp = (Player*)this->map->objects[ObjectType::PLAYER][j+1];
+                this->map->objects[ObjectType::PLAYER][j+1] = this->map->objects[ObjectType::PLAYER][j];
+                this->map->objects[ObjectType::PLAYER][j] = temp;
+            }
+        }
+    }
 
-    for(auto i : this->map->objects[ObjectType::PLAYER]){
-        if(!((Player*)i)->TryMove(dir)) ((Player*)i)->TryPush(dir);
+    if(dir == Direction::LEFT || dir == Direction::UP){
+        for(auto i : this->map->objects[ObjectType::PLAYER]){
+            if(!((Player*)i)->TryMove(dir)) ((Player*)i)->TryPush(dir);
+        }
+    }
+    else{
+        std::vector<CellObjBase*> vplayers = this->map->objects[ObjectType::PLAYER];
+        std::reverse(vplayers.begin(), vplayers.end());
+        for(auto i: vplayers){
+            if(!((Player*)i)->TryMove(dir)) ((Player*)i)->TryPush(dir);
+        }
     }
 
     this->map->SpawnGhosts();

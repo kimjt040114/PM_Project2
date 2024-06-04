@@ -139,7 +139,7 @@ Cell* Cell::GetNeighbor(Direction dir) const
     }
 
     if(dir == Direction::DOWN){
-        if(row == parent->GetRowsize()) return nullptr;
+        if(row == parent->GetRowsize()-1) return nullptr;
         else return parent->GetCell(row+1, col);
     }
     if(dir == Direction::LEFT){
@@ -147,7 +147,7 @@ Cell* Cell::GetNeighbor(Direction dir) const
         else return parent->GetCell(row, col-1);
     }
     if(dir == Direction::RIGHT){
-        if(col == parent->GetColsize()) return nullptr;
+        if(col == parent->GetColsize()-1) return nullptr;
         else return parent->GetCell(row, col+1);
     }
 

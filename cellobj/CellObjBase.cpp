@@ -33,7 +33,7 @@ bool CellObjBase::TryMove(Direction dir)
     // 4. If the neighbor didn’t have any object, then
     //    swap between the neighbor and return true
     // 5. If any one of 2 to 4 is false, then return false
-
+    
     Cell* neighbor = parent->GetNeighbor(dir);
     
     if(neighbor != nullptr){
@@ -42,10 +42,6 @@ bool CellObjBase::TryMove(Direction dir)
                 parent->SwapObject(neighbor);
                 return true;
             }
-
-            // for the case that 'this' is player. it can push, not only just move.
-            // !! should check whether it works well !!
-            // if(this->GetType() == ObjectType::PLAYER) ((Player*)this)->TryPush(dir);
         }
     }
 

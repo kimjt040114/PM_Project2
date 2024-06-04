@@ -20,17 +20,18 @@ bool Player::TryPush(Direction dir)
     // 5. If any one of 2 to 4 is false, then return false.
 
     Cell* neighbor = parent->GetNeighbor(dir);
-
-    if(neighbor->cellType != CellType::WALL){
-        if(neighbor->GetObject() != nullptr){
-            if(neighbor->GetObject()->TryMove(dir)){
-                this->TryMove(dir);
-                return true;
-            }
-            else if(neighbor->GetObject()->GetType() == ObjectType::PLAYER){
-                if(((Player*)neighbor->GetObject())->TryPush(dir)){
+    if(neighbor != nullptr){
+        if(neighbor->cellType != CellType::WALL){
+            if(neighbor->GetObject() != nullptr){
+                if(neighbor->GetObject()->TryMove(dir)){
                     this->TryMove(dir);
                     return true;
+                }
+                else if(neighbor->GetObject()->GetType() == ObjectType::PLAYER){
+                    if(((Player*)neighbor->GetObject())->TryPush(dir)){
+                        this->TryMove(dir);
+                        return true;
+                    }
                 }
             }
         }

@@ -77,7 +77,7 @@ void Map::Initialize(int rowsize, int colsize, std::istream& ist)
     }
     
     std::getline(ist, line);
-    int numObj = (int)line[0] - (int)'0';
+    int numObj = std::stoi(line);
 
     for(int i=0; i < numObj; i++){
         std::string objType;
@@ -90,8 +90,8 @@ void Map::Initialize(int rowsize, int colsize, std::istream& ist)
 
         std::getline(ist, row_s, ' ');
         std::getline(ist, col_s, '\n');
-        int row = (int)row_s[0] - (int)'0';
-        int col = (int)col_s[0] - (int)'0';
+        int row = std::stoi(row_s);
+        int col = std::stoi(col_s);
 
         this->cells[row][col]->InitObject(objType);
         if(this->cells[row][col]->GetObject() == nullptr){
@@ -184,7 +184,8 @@ std::string evaluateExpr(std::string expr){
     while(!expr.empty()){
         op = expr[0];
         expr.erase(0, 1);
-        cnt=0;
+        cnt=0, n2=0;
+        n2_s.clear();
         while(expr[cnt] != '+' && expr[cnt] != '-' && expr[cnt] != '*'){
             n2_s.push_back(expr[cnt]);
             cnt++;
@@ -234,26 +235,24 @@ void Map::SpawnGhosts()
     for(auto eq : this->equals){
         // evaluate the left expression
         std::string result = evaluateExpr(eq->GetExpression(Direction::LEFT));
-        if(result.empty()) return;
-
-        // initialize obj, item
-        Cell *cellptr = eq->parent->parent;
-        for(int i=0; i < result.size(); i++){
-            char ghostNum = result[i];
-            cellptr = cellptr->GetNeighbor(Direction::RIGHT);
-            if(cellptr != nullptr){
-                if(cellptr->GetObject() == nullptr){
-                    cellptr->InitObject("Ghost");
-                    cellptr->GetObject()->InitItem(ghostNum);
-                }
-                else if(cellptr->GetObject()->GetType() == ObjectType::GHOST){
-                    if(ghostNum > cellptr->GetObject()->GetItem()->GetIcon()){
-                        for(auto iter = this->objects[ObjectType::GHOST].begin(); 
-                            iter != this->objects[ObjectType::GHOST].end(); iter++){
-                            if( (*iter)->parent == cellptr ) this->objects[ObjectType::GHOST].erase(iter);
-                        }
+        if(!result.empty()){
+            // initialize obj, item
+            Cell *cellptr = eq->parent->parent;
+            for(int i=0; i < result.size(); i++){
+                char ghostNum = result[i];
+                cellptr = cellptr->GetNeighbor(Direction::RIGHT);
+                if(cellptr != nullptr){
+                    if(cellptr->GetObject() == nullptr){
                         cellptr->InitObject("Ghost");
                         cellptr->GetObject()->InitItem(ghostNum);
+                    }
+                    else if(cellptr->GetObject()->GetType() == ObjectType::GHOST){
+                        if(ghostNum > cellptr->GetObject()->GetItem()->GetIcon()){
+                            auto i = std::find(this->objects[ObjectType::GHOST].begin(), this->objects[ObjectType::GHOST].end(), cellptr->GetObject());
+                            this->objects[ObjectType::GHOST].erase(i);
+                            cellptr->InitObject("Ghost");
+                            cellptr->GetObject()->InitItem(ghostNum);
+                        }
                     }
                 }
             }
@@ -263,24 +262,27 @@ void Map::SpawnGhosts()
         result.clear();
         result = evaluateExpr(eq->GetExpression(Direction::UP));
 
-        // initialize obj, item
-        cellptr = eq->parent->parent;
-        for(int i=0; i < result.size(); i++){
-            char ghostNum = result[i];
-            cellptr = cellptr->GetNeighbor(Direction::DOWN);
-            if(cellptr != nullptr){
-                if(cellptr->GetObject() == nullptr){
-                    cellptr->InitObject("Ghost");
-                    cellptr->GetObject()->InitItem(ghostNum);
-                }
-                else if(cellptr->GetObject()->GetType() == ObjectType::GHOST){
-                    if(ghostNum > cellptr->GetObject()->GetItem()->GetIcon()){
-                        std::vector<CellObjBase*> ghosts = this->objects[ObjectType::GHOST];
-                        for(auto iter = ghosts.begin(); iter != ghosts.end(); iter++){
-                            if( (*iter)->parent == cellptr ) this->objects[ObjectType::GHOST].erase(iter);
-                        }
+
+        if(!result.empty()){    
+            // initialize obj, item
+            Cell *cellptr = eq->parent->parent;
+            for(int i=0; i < result.size(); i++){
+                char ghostNum = result[i];
+                cellptr = cellptr->GetNeighbor(Direction::DOWN);
+                if(cellptr != nullptr){
+                    if(cellptr->GetObject() == nullptr){
                         cellptr->InitObject("Ghost");
                         cellptr->GetObject()->InitItem(ghostNum);
+                    }
+                    else if(cellptr->GetObject()->GetType() == ObjectType::GHOST){
+                        if(ghostNum > cellptr->GetObject()->GetItem()->GetIcon()){
+                            std::vector<CellObjBase*> ghosts = this->objects[ObjectType::GHOST];
+                            for(auto iter = ghosts.begin(); iter != ghosts.end(); iter++){
+                                if( (*iter)->parent == cellptr ) this->objects[ObjectType::GHOST].erase(iter);
+                            }
+                            cellptr->InitObject("Ghost");
+                            cellptr->GetObject()->InitItem(ghostNum);
+                        }
                     }
                 }
             }
