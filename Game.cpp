@@ -145,7 +145,7 @@ void Game::Load(std::string filename)
 
     //////////     TODO     ////////////////////////////////////
     // Add undo-related logic if you needed.
-    undoStack.push(this->map->GetObjInfo());
+    while(!undoStack.empty()) undoStack.pop();
     //////////   TODO END   ////////////////////////////////////
 }
 
@@ -318,8 +318,10 @@ void Game::Undo()
 
         obj.erase(0, 2);
 
-        int row = (int)obj[0] - (int)'0';
-        int col = (int)obj[2] - (int)'0';
+        pos = obj.find(' ');
+        int row = std::stoi(obj.substr(0, pos));
+        obj.erase(0, pos+1);
+        int col = std::stoi(obj);
 
         this->map->GetCell(row, col)->InitObject(objType);
         this->map->GetCell(row, col)->GetObject()->InitItem(icon);
