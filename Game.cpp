@@ -216,21 +216,22 @@ void Game::AskExit()
     // Implement 'exiting state'.
     // Press ‘Q’ again to quit the game.
     // Press ‘Z’ to resume the game and clear the terminal message.
+    while(1){
+        Command cmd = Terminal::GetCommand();
+        switch (cmd){
+            case Command::EXIT:
+                this->gameState = GameState::GAMEOVER;
+                return;
 
-    Command cmd = Terminal::GetCommand();
-    switch (cmd){
-        case Command::EXIT:
-            this->gameState = GameState::GAMEOVER;
-            return;
+            case Command::UNDO:
+                this->gameState = GameState::PLAYING;
+                Terminal::ClearMessage();
+                return;
+                
+            default:
+                continue;
 
-        case Command::UNDO:
-            this->gameState = GameState::PLAYING;
-            Terminal::ClearMessage();
-            return;
-            
-        default:
-            return;
-
+        }
     }
 
     //////////   TODO END   ////////////////////////////////////

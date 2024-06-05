@@ -18,7 +18,8 @@ Cell::~Cell()
 {
     //////////     TODO     ////////////////////////////////////
     // Modify destructor if you needed.
-
+    delete obj;
+    delete parent;
     //////////   TODO END   ////////////////////////////////////
 }
 
