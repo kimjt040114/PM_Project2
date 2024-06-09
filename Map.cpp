@@ -2,6 +2,7 @@
 
 #include <cmath>
 #include <istream>
+#include <stdexcept>
 #include <string>
 #include <algorithm>
 #include <utility>
@@ -51,26 +52,18 @@ void Map::Initialize(int rowsize, int colsize, std::istream& ist)
         std::getline(ist, line);
         for(unsigned int j=0; j < line.length(); j++){
             char c = line[j];
-            switch (c){
-                case '#':
-                    this->cells[i].push_back(new Wall(this, i, j));
-                    break;
-                case ' ':
-                    this->cells[i].push_back(new Cell(this, i, j));
-                    break;
-                case '0':
-                case '1':
-                case '2':
-                case '3':
-                case '4':
-                case '5':
-                case '6':
-                case '7':
-                case '8':
-                case '9':
-                    this->cells[i].push_back(new Home(this, i, j, c));
-                    this->homes.push_back(this->cells[i][j]);
-                    break;
+            if(c == '#'){
+                this->cells[i].push_back(new Wall(this, i, j));
+            }
+            else if(c == ' '){
+                this->cells[i].push_back(new Cell(this, i, j));
+            }
+            else if('0' <= c && c <= '9'){
+                this->cells[i].push_back(new Home(this, i, j, c));
+                this->homes.push_back(this->cells[i][j]);
+            }
+            else{
+                throw std::runtime_error("Wrong cell map.");
             }
         }
         for(int j=line.length(); j < colsize; j++) { this->cells[i][j]; }

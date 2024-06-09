@@ -9,6 +9,7 @@
 #include "item/Operator.hpp"
 #include "item/Equal.hpp"
 #include <cstddef>
+#include <stdexcept>
 
 CellObjBase::CellObjBase(Cell* cell) : parent(cell)
 {
@@ -64,28 +65,31 @@ void CellObjBase::InitItem(char itemIcon)
     // else: Don’t care (throwing runtime_error is best).
 
     if(itemIcon == '+'){
-        ItemBase* newItem = new Operator(this, OpType::ADD);
-        this->item = newItem;
+        this->item = new Operator(this, OpType::ADD);
     }
 
     else if(itemIcon == '-'){
-        ItemBase* newItem = new Operator(this, OpType::SUB);
-        this->item = newItem;
+        this->item = new Operator(this, OpType::SUB);
     }
 
     else if(itemIcon == '*'){
-        ItemBase* newItem = new Operator(this, OpType::MUL);
-        this->item = newItem;
+        this->item = new Operator(this, OpType::MUL);
     }
     
     else if(itemIcon == '='){ 
-        ItemBase* newItem = new Equal(this); 
-        this->item = newItem;
-        (this->parent->parent->equals).push_back((Equal*)(newItem));
+        this->item = new Equal(this);
+        (this->parent->parent->equals).push_back((Equal*)(this->item));
     }
     else if('0' <= itemIcon && itemIcon <= '9'){ 
-        ItemBase* newItem = new Number(this, (int(itemIcon) - int('0'))); 
-        this->item = newItem;
+        // ItemBase* newItem = new Number(this, (int(itemIcon) - int('0'))); 
+        // this->item = newItem;
+        this->item = new Number(this, (int)(itemIcon - '0'));
+    }
+    else if(itemIcon == '@' || itemIcon == ' '){
+        //Do nothing
+    }
+    else{
+        throw std::runtime_error("Wrong icon of object.");
     }
 
 
